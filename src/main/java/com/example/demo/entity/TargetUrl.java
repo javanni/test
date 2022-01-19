@@ -1,90 +1,34 @@
 package com.example.demo.entity;
 
-import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.List;
 
-import static javax.persistence.GenerationType.SEQUENCE;
-
-@Entity(name = "TargetUrl")
+@Entity
 @Table(name = "target_url")
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+
 public class TargetUrl {
 
     @Id
-    @SequenceGenerator(
-            name = "url_sequence",
-            sequenceName = "url_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = SEQUENCE,
-            generator = "url_sequence"
-    )
-    @Column(
-            name = "id",
-            updatable = false
-    )
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_url", nullable = false)
     private Long id;
 
-    @Column(
-            name = "name",
-            nullable = false,
-            columnDefinition = "varchar(255)"
-    )
+    @Column(nullable = false)
     private String name;
 
-    @OneToMany(
-            mappedBy = "targetUrl",
-            orphanRemoval = true
-    )
+    @OneToMany(mappedBy = "targetUrl", orphanRemoval = true)
     private List<Words> listWords;
-
-    public TargetUrl() {
-    }
-
-    public TargetUrl(String name) {
-        this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "Url{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        TargetUrl url = (TargetUrl) o;
-
-        if (!getId().equals(url.getId())) return false;
-        return getName().equals(url.getName());
-    }
-
-    @Override
-    public int hashCode() {
-        int result = getId().hashCode();
-        result = 31 * result + getName().hashCode();
-        return result;
-    }
 }
