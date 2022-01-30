@@ -5,15 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -34,8 +30,12 @@ public class Words {
     @Column(nullable = false)
     private Integer count;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(insertable = false, updatable = false, name = "id_word", referencedColumnName = "id_url", foreignKey = @ForeignKey(name = "target_url_id_fk"))
-    private TargetUrl targetUrl;
 
+
+
+
+    public Words(String word, Integer count) {
+        this.word = word;
+        this.count = count;
+    }
 }
