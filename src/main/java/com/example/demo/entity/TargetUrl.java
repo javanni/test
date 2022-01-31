@@ -1,9 +1,7 @@
 package com.example.demo.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,15 +17,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "target_url")
-@AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Component
 public class TargetUrl {
-    public TargetUrl(String name, List<Words> listWords) {
-        this.name = name;
-        this.listWords = listWords;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -3,7 +3,6 @@ package com.example.demo.model.service;
 import com.example.demo.entity.TargetUrl;
 import com.example.demo.entity.Words;
 import com.example.demo.repo.TargetUrlRepository;
-import com.example.demo.repo.WordsRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,33 +16,13 @@ import java.util.StringTokenizer;
 
 @Service
 public class CounterService {
+
     private final String DELIMITER = " -\"\t\n\r,.!?:;)(][1234567890»«/—©'%";
+
     @Autowired
     private TargetUrlRepository targetUrlRepository;
-    @Autowired
-    private WordsRepository wordsRepository;
-
-    public String htmlTagRemove(String rawPageText) {
-
-        Document parsedDoc = Jsoup.parse(rawPageText);
-        String resultText = parsedDoc.text();
-
-        return resultText;
-    }
-
-    public List<String> splitString (String textToSplit) {
-
-        List<String> stringList = new ArrayList<>();
-
-        StringTokenizer st = new StringTokenizer(textToSplit, DELIMITER);
-        while (st.hasMoreTokens()) {
-            stringList.add(st.nextToken().toLowerCase());
-        }
-        return stringList;
-    }
 
     public Map<String, Integer> count(String rawPageText, String newUrl){
-
         Map<String, Integer> wordsCount = new HashMap<>();
 
         String pageText = htmlTagRemove(rawPageText);
@@ -70,8 +49,23 @@ public class CounterService {
         return wordsCount;
     }
 
+    private String htmlTagRemove(String rawPageText) {
+        Document parsedDoc = Jsoup.parse(rawPageText);
+        return parsedDoc.text();
+    }
+
+    private List<String> splitString (String textToSplit) {
+        List<String> stringList = new ArrayList<>();
+        StringTokenizer st = new StringTokenizer(textToSplit, DELIMITER);
+        while (st.hasMoreTokens()) {
+            stringList.add(st.nextToken().toLowerCase());
+        }
+
+        return stringList;
+    }
+
     private void fillMap (Map<String, Integer> wordsCount, List<String> stringList){
-        stringList.stream().forEach(word -> {
+        stringList.forEach(word -> {
             int count = 1;
             if (!wordsCount.containsKey(word)) {
                 wordsCount.put(word, count);
@@ -79,6 +73,5 @@ public class CounterService {
                 wordsCount.put(word, wordsCount.get(word) + count);
             }
         });
-
     }
 }

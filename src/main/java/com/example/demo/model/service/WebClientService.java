@@ -1,12 +1,10 @@
 package com.example.demo.model.service;
 
-
 import io.netty.channel.ChannelOption;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
-
 
 @Service
 public class WebClientService {
@@ -38,6 +36,4 @@ public class WebClientService {
 
         return requestBodyText;
     }
-
-
 }

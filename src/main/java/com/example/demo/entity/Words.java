@@ -1,7 +1,5 @@
 package com.example.demo.entity;
 
-
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,7 +12,6 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "words")
-@AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class Words {
@@ -29,10 +26,6 @@ public class Words {
 
     @Column(nullable = false)
     private Integer count;
-
-
-
-
 
     public Words(String word, Integer count) {
         this.word = word;

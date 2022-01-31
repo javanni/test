@@ -10,16 +10,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
-
 @RestController
 public class URLController {
 
+    @Autowired
     private WebClientService webClientService;
+
+    @Autowired
     private CounterService counterService;
 
     @Operation(summary = "Performs word count",
                 description = "Performs word count on the web-page and saves result to the database")
-
     @PostMapping("/target_url")
     public Map<String, Integer> getWordsCount(@RequestBody
                                                   @Parameter(name = "newUrl",
@@ -27,20 +28,7 @@ public class URLController {
                                                           required = true,
                                                                 example = "https://www.simbirsoft.com/")
                                                                 String newUrl) {
-        Map<String, Integer> wordsCountMap;
         String rawPageText = webClientService.getTextFromRequestBody(newUrl);
-        wordsCountMap = counterService.count(rawPageText, newUrl);
-
-        return wordsCountMap;
-    }
-
-    @Autowired
-    public void setWebClientService(WebClientService webClientService) {
-        this.webClientService = webClientService;
-    }
-
-    @Autowired
-    public void setCounterService(CounterService counterService) {
-        this.counterService = counterService;
+        return counterService.count(rawPageText, newUrl);
     }
 }
